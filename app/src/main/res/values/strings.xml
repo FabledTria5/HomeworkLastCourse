@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">HomeworkLastCourse</string>
+    <string name="more">More</string>
+    <string name="markers">Markers</string>
+    <string name="marker_item_template">Latitude = %1$f, longitude = %2$f</string>
+    <string name="marker_title_hint">Change Marker title</string>
+    <string name="marker_text_hint">Add some information about this place!</string>
+</resources>
