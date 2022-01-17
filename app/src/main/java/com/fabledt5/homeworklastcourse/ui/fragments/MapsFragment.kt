@@ -60,26 +60,24 @@ class MapsFragment : Fragment(R.layout.fragment_maps), EasyPermissions.Permissio
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                googleMap.addMarker(
-                    MarkerOptions()
-                        .position(
-                            LatLng(
-                                location.latitude,
-                                location.longitude
+                location?.let {
+                    googleMap.addMarker(
+                        MarkerOptions()
+                            .position(LatLng(it.latitude, it.longitude))
+                            .icon(
+                                BitmapDescriptorFactory.defaultMarker(
+                                    BitmapDescriptorFactory.HUE_AZURE
+                                )
                             )
-                        )
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                        .title("Current location")
-                )
-                googleMap.moveCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                        LatLng(
-                            location.latitude,
-                            location.longitude
-                        ),
-                        5f
+                            .title("Current location")
                     )
-                )
+                    googleMap.moveCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            LatLng(it.latitude, it.longitude),
+                            5f
+                        )
+                    )
+                }
             }
         }
 

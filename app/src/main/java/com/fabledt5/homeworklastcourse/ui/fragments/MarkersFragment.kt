@@ -2,7 +2,6 @@ package com.fabledt5.homeworklastcourse.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -49,20 +48,15 @@ class MarkersFragment : Fragment(R.layout.fragment_markers) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setHasOptionsMenu(true)
+        binding.materialToolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+
         binding.markersList.adapter = markersListAdapter
 
         mapsViewModel.savedMarkers.onEach { markers ->
             markersListAdapter.submitList(markers)
         }.launchWhenStarted(lifecycleScope)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            findNavController().navigateUp()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroy() {
