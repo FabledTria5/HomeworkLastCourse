@@ -1,4 +1,4 @@
-package com.fabledt5.ridingcar
+package com.fabledt5.drivingcar
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.fabledt5.ridingcar", appContext.packageName)
+        assertEquals("com.fabledt5.drivingcar", appContext.packageName)
     }
 }

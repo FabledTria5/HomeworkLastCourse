@@ -1,4 +1,4 @@
-package com.fabledt5.ridingcar
+package com.fabledt5.drivingcar
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.fabledt5.ridingcar
+package com.fabledt5.drivingcar
 
 import android.graphics.PointF
 import android.view.View
@@ -58,7 +58,7 @@ class Car(private val car: View, private val screenWidth: Float, private val scr
         val deltaY = abs(b.y - a.y)
         val deltaX = abs(b.x - a.x)
         val angle = Math.toDegrees(atan2(deltaY.toDouble(), deltaX.toDouble()))
-        return angle + 90
+        return angle
     }
 
     private fun calculateXTranslation(pointsToTarget: Int) = when (currentCarDirection) {
