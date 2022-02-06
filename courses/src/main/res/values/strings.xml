@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">courses</string>
+    <string name="home">Home</string>
+    <string name="classes">Classes</string>
+    <string name="homework">Homework</string>
+    <string name="rating">Rating</string>
+    <string name="hi_mike">Hi, <b>Mike!</b></string>
+    <string name="dots">:</string>
+    <string name="minutes">Minutes</string>
+    <string name="hours">Hours</string>
+    <string name="days">Days</string>
+    <string name="timer_placeholder">0</string>
+    <string name="open_in">Open in</string>
+    <string name="today_date">Today: %1$s June</string>
+    <string name="_6_classes_today">%1$d classes today</string>
+    <string name="next_practice_work">Next practice work:</string>
+</resources>
