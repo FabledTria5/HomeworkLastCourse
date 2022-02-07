@@ -19,6 +19,9 @@ interface CoursesDao {
     fun getFirstExtraClass(): Flow<ClassEntity>
 
     @Query(value = "SELECT * FROM classes_table")
-    fun getAllClasses(): Flow<ClassEntity>
+    fun getAllClasses(): Flow<List<ClassEntity>>
+
+    @Query(value = "SELECT * FROM classes_table WHERE class_date = :date")
+    fun getDailyClasses(date: String): Flow<List<ClassEntity>>
 
 }

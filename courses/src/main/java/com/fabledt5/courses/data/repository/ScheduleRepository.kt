@@ -10,7 +10,7 @@ interface ScheduleRepository {
 
     fun getNextExtraClass(): Flow<ClassEntity>
 
-    fun getAllClasses(): Flow<ClassEntity>
+    fun getDailyClasses(date: String): Flow<List<ClassEntity>>
 
     suspend fun loadData()
 

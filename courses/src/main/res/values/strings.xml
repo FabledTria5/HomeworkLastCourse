@@ -12,6 +12,6 @@
     <string name="timer_placeholder">0</string>
     <string name="open_in">Open in</string>
     <string name="today_date">Today: %1$s June</string>
-    <string name="_6_classes_today">%1$d classes today</string>
+    <string name="classes_today">%1$d classes today</string>
     <string name="next_practice_work">Next practice work:</string>
 </resources>

@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.fabledt5.courses.R
 import com.fabledt5.courses.databinding.FragmentHomeBinding
+import com.fabledt5.courses.ui.adapters.DailyClassesAdapter
+import com.fabledt5.courses.ui.model.Resource
 import com.fabledt5.courses.util.launchWhenStarted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
@@ -20,6 +23,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val binding get() = _binding!!
 
     private val homeViewModel: HomeViewModel by activityViewModels()
+
+    private val dailyClassesAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        DailyClassesAdapter()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,10 +43,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun initUi() {
-
+        LinearSnapHelper().attachToRecyclerView(binding.rvClasses)
+        binding.rvClasses.adapter = dailyClassesAdapter
     }
 
     private fun observeTimer() {
+        homeViewModel.allClasses.onEach { resource ->
+            when (resource) {
+                is Resource.Error -> {}
+                Resource.Loading -> {}
+                is Resource.Success -> {
+                    dailyClassesAdapter.submitList(resource.data)
+                    binding.tvDailyClassesCount.text =
+                        String.format(getString(R.string.classes_today), resource.data.size)
+                }
+            }
+        }.launchWhenStarted(lifecycleScope)
+
         homeViewModel.daysToExam.onEach { daysNumber ->
             val daysString = daysNumber.toString()
             if (daysString.length == 2) {
@@ -68,6 +88,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             } else {
                 binding.minutesSecondNum.text = minutesString[0].toString()
             }
+        }.launchWhenStarted(lifecycleScope)
+
+        homeViewModel.examName.onEach { name ->
+            binding.tvExamName.text = name
         }.launchWhenStarted(lifecycleScope)
     }
 

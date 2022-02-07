@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="130dp"
     app:cardBackgroundColor="@color/DarkLateGray"
     app:cardCornerRadius="25dp">
 
@@ -24,17 +24,35 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvClassName"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
+            android:layout_marginBottom="5dp"
+            android:ellipsize="end"
+            android:maxWidth="250dp"
+            android:maxLines="2"
+            android:paddingEnd="10dp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/openLessonBackground"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias=".35"
+            app:layout_constraintTop_toTopOf="@+id/imageView2"
+            tools:ignore="RtlSymmetry"
             tools:text="History" />
+
+        <TextView
+            android:id="@+id/tvTeacherName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha=".6"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+            app:layout_constraintStart_toStartOf="@+id/tvClassName"
+            app:layout_constraintTop_toBottomOf="@+id/tvClassName"
+            tools:text="Teacher name" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -42,14 +60,13 @@
             android:layout_height="13dp"
             android:alpha=".4"
             android:src="@drawable/ic_time"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView3"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias=".65"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@+id/tvClassName"
+            app:layout_constraintTop_toBottomOf="@+id/tvTeacherName"
             app:tint="@color/white" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/tvClassTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -93,8 +110,8 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_marginTop="20dp"
-            android:rotation="90"
             android:layout_marginEnd="5dp"
+            android:rotation="90"
             android:src="@drawable/ic_camera"
             app:layout_constraintEnd_toEndOf="@+id/textView4"
             app:layout_constraintStart_toStartOf="@+id/textView4"

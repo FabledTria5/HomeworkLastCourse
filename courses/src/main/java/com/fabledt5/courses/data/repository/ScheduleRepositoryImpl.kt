@@ -23,7 +23,7 @@ class ScheduleRepositoryImpl @Inject constructor(
 
     override fun getNextExtraClass() = coursesDao.getFirstExtraClass()
 
-    override fun getAllClasses() = coursesDao.getAllClasses()
+    override fun getDailyClasses(date: String) = coursesDao.getDailyClasses(date = date)
 
     override suspend fun loadData() {
         coursesDao.insertClasses(remoteDataSource.getSchedule().toEntity())
