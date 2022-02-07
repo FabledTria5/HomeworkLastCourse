@@ -18,11 +18,16 @@ object DbModule {
     @Provides
     fun provideCoursesDatabase(@ApplicationContext context: Context): CoursesDataBase = Room
         .databaseBuilder(context, CoursesDataBase::class.java, "courses_database")
+        .createFromAsset("database/homeworks.db")
         .fallbackToDestructiveMigration()
         .build()
 
     @Singleton
     @Provides
     fun provideCoursesDao(coursesDataBase: CoursesDataBase) = coursesDataBase.coursesDao()
+
+    @Singleton
+    @Provides
+    fun provideHomeworkDao(coursesDataBase: CoursesDataBase) = coursesDataBase.homeworkDao()
 
 }

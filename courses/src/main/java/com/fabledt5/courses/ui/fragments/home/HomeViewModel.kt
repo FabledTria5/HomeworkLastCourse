@@ -4,6 +4,8 @@ import android.os.CountDownTimer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fabledt5.courses.data.db.entities.ClassEntity
+import com.fabledt5.courses.data.db.entities.HomeworkEntity
+import com.fabledt5.courses.data.repository.HomeworkRepository
 import com.fabledt5.courses.data.repository.ScheduleRepository
 import com.fabledt5.courses.ui.model.Resource
 import com.fabledt5.courses.util.toDaysDifference
@@ -26,23 +28,28 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val scheduleRepository: ScheduleRepository) :
-    ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val scheduleRepository: ScheduleRepository,
+    private val homeworkRepository: HomeworkRepository
+) : ViewModel() {
 
-    private val _daysToExam = MutableStateFlow<Long>(0)
+    private val _daysToExam = MutableStateFlow<Long>(value = 0)
     val daysToExam = _daysToExam.asStateFlow()
 
-    private val _hoursToExam = MutableStateFlow(0)
+    private val _hoursToExam = MutableStateFlow(value = 0)
     val hoursToExam = _hoursToExam.asStateFlow()
 
-    private val _minutesToExam = MutableStateFlow(0)
+    private val _minutesToExam = MutableStateFlow(value = 0)
     val minutesToExam = _minutesToExam.asStateFlow()
 
-    private val _examName = MutableStateFlow("")
+    private val _examName = MutableStateFlow(value = "")
     val examName = _examName.asStateFlow()
 
     private val _allClasses = MutableStateFlow<Resource<List<ClassEntity>>>(Resource.Loading)
     val allClasses = _allClasses.asStateFlow()
+
+    private val _homework = MutableStateFlow<Resource<List<HomeworkEntity>>>(Resource.Loading)
+    val homework = _homework.asStateFlow()
 
     private var timer: CountDownTimer? = null
 
@@ -50,18 +57,11 @@ class HomeViewModel @Inject constructor(private val scheduleRepository: Schedule
         viewModelScope.launch(Dispatchers.IO) {
             if (!scheduleRepository.isDataLoaded()) scheduleRepository.loadData()
             viewModelScope.launch(Dispatchers.Main) {
-                getDailyClasses()
                 getExtraClass()
+                getDailyClasses()
+                getHomework()
             }
         }
-    }
-
-    private fun getDailyClasses() {
-        val today = SimpleDateFormat("dd MMM yyyy", Locale("ru")).format(Date())
-        scheduleRepository.getDailyClasses(today.filter { it != '.' }).onEach {
-            _allClasses.value = if (it.isNotEmpty()) Resource.Success(data = it)
-            else Resource.Error(error = Throwable("Empty list"))
-        }.launchIn(viewModelScope)
     }
 
     private fun getExtraClass() {
@@ -81,6 +81,20 @@ class HomeViewModel @Inject constructor(private val scheduleRepository: Schedule
                     timeDifference.toMinutesDifference()
                 )
             }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getDailyClasses() {
+        scheduleRepository.getDailyClasses().onEach {
+            _allClasses.value = if (it.isNotEmpty()) Resource.Success(data = it)
+            else Resource.Error(error = Throwable("Empty list"))
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getHomework() {
+        homeworkRepository.getHomeWorks().onEach {
+            _homework.value = if (it.isNotEmpty()) Resource.Success(data = it)
+            else Resource.Error(error = Throwable("Empty list"))
         }.launchIn(viewModelScope)
     }
 

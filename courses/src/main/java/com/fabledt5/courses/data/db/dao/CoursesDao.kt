@@ -1,4 +1,4 @@
-package com.fabledt5.courses.data.db
+package com.fabledt5.courses.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

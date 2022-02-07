@@ -8,6 +8,7 @@
     app:cardCornerRadius="25dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -80,8 +81,10 @@
             tools:text="8:00 - 8:45" />
 
         <androidx.constraintlayout.widget.Group
+            android:id="@+id/openClass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             app:constraint_referenced_ids="openLessonBackground,textView4,textView6" />
 
         <ImageView
