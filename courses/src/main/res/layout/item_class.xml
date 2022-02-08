@@ -46,10 +46,10 @@
             android:id="@+id/tvTeacherName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:alpha=".6"
             android:textColor="@color/white"
             android:textSize="12sp"
-            android:layout_marginTop="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView2"
             app:layout_constraintStart_toStartOf="@+id/tvClassName"
             app:layout_constraintTop_toBottomOf="@+id/tvClassName"
@@ -59,9 +59,9 @@
             android:id="@+id/imageView"
             android:layout_width="13dp"
             android:layout_height="13dp"
+            android:layout_marginTop="5dp"
             android:alpha=".4"
             android:src="@drawable/ic_time"
-            android:layout_marginTop="5dp"
             app:layout_constraintStart_toStartOf="@+id/tvClassName"
             app:layout_constraintTop_toBottomOf="@+id/tvTeacherName"
             app:tint="@color/white" />
@@ -85,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
-            app:constraint_referenced_ids="openLessonBackground,textView4,textView6" />
+            app:constraint_referenced_ids="openLessonBackground,textView4,textView6,btnOpenLesson" />
 
         <ImageView
             android:id="@+id/openLessonBackground"
@@ -120,6 +120,15 @@
             app:layout_constraintStart_toStartOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/textView4"
             app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/btnOpenLesson"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="@id/openLessonBackground"
+            app:layout_constraintEnd_toEndOf="@id/openLessonBackground"
+            app:layout_constraintStart_toStartOf="@id/openLessonBackground"
+            app:layout_constraintTop_toTopOf="@id/openLessonBackground" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

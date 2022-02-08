@@ -3,7 +3,6 @@ package com.fabledt5.courses.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.fabledt5.courses.R
@@ -28,22 +27,18 @@ class DailyClassesAdapter(
                 tvTeacherName.text = item.teacherName
                 tvClassTime.text = item.classTime
 
-                val localTime = Date()
+                val localTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
 
-                val startTime = SimpleDateFormat("HH:mm", Locale.getDefault())
-                    .parse(item.classTime.substring(0, 5))
-
-                val endTime = SimpleDateFormat("HH:mm", Locale.getDefault())
-                    .parse(
-                        item.classTime.substring(
-                            item.classTime.length - 5, item.classTime.length
-                        )
-                    )
+                val startTime = item.classTime.substring(0, 5)
+                val endTime = item.classTime.substring(
+                    item.classTime.length - 5,
+                    item.classTime.length
+                )
 
                 if (localTime in startTime..endTime) {
                     binding.openClass.visibility = View.VISIBLE
                     onScrollToActive(position)
-                    binding.openClass.setOnClickListener { onOpenClassClick() }
+                    binding.btnOpenLesson.setOnClickListener { onOpenClassClick() }
                 }
             }
         }

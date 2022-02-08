@@ -51,6 +51,8 @@ class HomeViewModel @Inject constructor(
     private val _homework = MutableStateFlow<Resource<List<HomeworkEntity>>>(Resource.Loading)
     val homework = _homework.asStateFlow()
 
+    val isDataLoading = MutableStateFlow(value = true)
+
     private var timer: CountDownTimer? = null
 
     init {
@@ -59,11 +61,13 @@ class HomeViewModel @Inject constructor(
 
     fun updateData() {
         viewModelScope.launch(Dispatchers.IO) {
+            isDataLoading.value = true
             if (!scheduleRepository.isDataLoaded()) scheduleRepository.loadData()
             viewModelScope.launch(Dispatchers.Main) {
                 getExtraClass()
                 getDailyClasses()
                 getHomework()
+                isDataLoading.value = false
             }
         }
     }

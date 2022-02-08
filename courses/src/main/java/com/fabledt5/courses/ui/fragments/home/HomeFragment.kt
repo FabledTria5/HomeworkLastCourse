@@ -37,7 +37,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val packageManager = requireActivity().packageManager
             val skype = packageManager.getLaunchIntentForPackage("com.skype.raider")
             startActivity(skype)
-        } catch (e: ActivityNotFoundException) {
+        } catch (e: NullPointerException) {
             Toast.makeText(context, "Skype is not installed", Toast.LENGTH_SHORT).show()
         }
     }
@@ -63,6 +63,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initUi()
+        setupListeners()
         observeData()
     }
 
@@ -72,7 +73,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.rvHomework.adapter = homeworkListAdapter
     }
 
+    private fun setupListeners() {
+        binding.refreshLayout.setOnRefreshListener { homeViewModel.updateData() }
+    }
+
     private fun observeData() {
+        homeViewModel.isDataLoading.onEach {
+            binding.refreshLayout.isRefreshing = it
+        }.launchWhenStarted(lifecycleScope)
+
         homeViewModel.allClasses.onEach { resource ->
             when (resource) {
                 is Resource.Error -> Log.d(TAG, "observeTimer: ${resource.error.message}")
