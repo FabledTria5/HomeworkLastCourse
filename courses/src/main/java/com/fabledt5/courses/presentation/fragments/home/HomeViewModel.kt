@@ -1,13 +1,13 @@
-package com.fabledt5.courses.ui.fragments.home
+package com.fabledt5.courses.presentation.fragments.home
 
 import android.os.CountDownTimer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fabledt5.courses.data.db.entities.ClassEntity
 import com.fabledt5.courses.data.db.entities.HomeworkEntity
-import com.fabledt5.courses.data.repository.HomeworkRepository
-import com.fabledt5.courses.data.repository.ScheduleRepository
-import com.fabledt5.courses.ui.model.Resource
+import com.fabledt5.courses.domain.model.ClassItem
+import com.fabledt5.courses.domain.repository.HomeworkRepository
+import com.fabledt5.courses.domain.use_cases.schedule.ScheduleCases
+import com.fabledt5.courses.presentation.model.Resource
 import com.fabledt5.courses.util.toDaysDifference
 import com.fabledt5.courses.util.toHoursDifference
 import com.fabledt5.courses.util.toMinutesDifference
@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 import kotlin.time.Duration
@@ -29,7 +28,7 @@ import kotlin.time.Duration.Companion.minutes
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val scheduleRepository: ScheduleRepository,
+    private val scheduleCases: ScheduleCases,
     private val homeworkRepository: HomeworkRepository
 ) : ViewModel() {
 
@@ -45,7 +44,7 @@ class HomeViewModel @Inject constructor(
     private val _examName = MutableStateFlow(value = "")
     val examName = _examName.asStateFlow()
 
-    private val _allClasses = MutableStateFlow<Resource<List<ClassEntity>>>(Resource.Loading)
+    private val _allClasses = MutableStateFlow<Resource<List<ClassItem>>>(Resource.Loading)
     val allClasses = _allClasses.asStateFlow()
 
     private val _homework = MutableStateFlow<Resource<List<HomeworkEntity>>>(Resource.Loading)
@@ -55,14 +54,12 @@ class HomeViewModel @Inject constructor(
 
     private var timer: CountDownTimer? = null
 
-    init {
-        updateData()
-    }
+    init { updateData() }
 
     fun updateData() {
         viewModelScope.launch(Dispatchers.IO) {
             isDataLoading.value = true
-            if (!scheduleRepository.isDataLoaded()) scheduleRepository.loadData()
+            scheduleCases.prepareData()
             viewModelScope.launch(Dispatchers.Main) {
                 getExtraClass()
                 getDailyClasses()
@@ -73,27 +70,22 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getExtraClass() {
-        scheduleRepository.getNextExtraClass().onEach { classEntity ->
-            val classDateString = classEntity.classDate + " " + classEntity.classTime
-            val classDate = SimpleDateFormat("dd MMM yyyy HH:mm - HH:mm", Locale("ru"))
-                .parse(classDateString) ?: Date()
-            val today = Date()
+        scheduleCases.getNextExtraClass().onEach { classItem ->
+            val timeDifference = classItem.classDate.time - Date().time
 
-            val timeDifference = classDate.time - today.time
-
-            _examName.value = classEntity.className
+            _examName.value = classItem.className
             viewModelScope.launch(Dispatchers.Main) {
                 startTimer(
                     daysToExam = timeDifference.toDaysDifference(),
-                    timeDifference.toHoursDifference(),
-                    timeDifference.toMinutesDifference()
+                    hoursToExam = timeDifference.toHoursDifference(),
+                    minutesToExam = timeDifference.toMinutesDifference()
                 )
             }
         }.launchIn(viewModelScope)
     }
 
     private fun getDailyClasses() {
-        scheduleRepository.getDailyClasses().onEach {
+        scheduleCases.getDailyClasses().onEach {
             _allClasses.value = if (it.isNotEmpty()) Resource.Success(data = it)
             else Resource.Error(error = Throwable("Empty list"))
         }.launchIn(viewModelScope)

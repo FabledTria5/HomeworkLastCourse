@@ -1,6 +1,5 @@
-package com.fabledt5.courses.ui.fragments.home
+package com.fabledt5.courses.presentation.fragments.home
 
-import android.content.ActivityNotFoundException
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,9 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.fabledt5.courses.R
 import com.fabledt5.courses.databinding.FragmentHomeBinding
-import com.fabledt5.courses.ui.adapters.DailyClassesAdapter
-import com.fabledt5.courses.ui.adapters.HomeworkListAdapter
-import com.fabledt5.courses.ui.model.Resource
+import com.fabledt5.courses.presentation.adapters.DailyClassesAdapter
+import com.fabledt5.courses.presentation.adapters.HomeworkListAdapter
+import com.fabledt5.courses.presentation.model.Resource
 import com.fabledt5.courses.util.launchWhenStarted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach

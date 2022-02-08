@@ -14,4 +14,6 @@
     <color name="DarkTurquoise">#0ec8d0</color>
     <color name="MediumTurquoise">#4bcfff</color>
     <color name="DarkLateGreen">#223537</color>
+    <color name="DarkOrange">#FE8C00</color>
+    <color name="Oranged">#f83600</color>
 </resources>

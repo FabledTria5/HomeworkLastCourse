@@ -1,4 +1,4 @@
-package com.fabledt5.courses.di
+package com.fabledt5.courses.presentation.di
 
 import android.content.Context
 import androidx.room.Room

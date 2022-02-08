@@ -1,4 +1,4 @@
-package com.fabledt5.courses.ui.fragments.classes
+package com.fabledt5.courses.presentation.fragments.classes
 
 import android.content.ActivityNotFoundException
 import android.os.Bundle
@@ -12,8 +12,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.fabledt5.courses.R
 import com.fabledt5.courses.databinding.FragmentClassesBinding
-import com.fabledt5.courses.ui.adapters.ClassesExtendedListAdapter
-import com.fabledt5.courses.ui.model.Resource
+import com.fabledt5.courses.presentation.adapters.ClassesExtendedListAdapter
+import com.fabledt5.courses.presentation.model.Resource
 import com.fabledt5.courses.util.launchWhenStarted
 import com.lriccardo.timelineview.TimelineDecorator
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +27,7 @@ class ClassesFragment : Fragment(R.layout.fragment_classes) {
     private var _binding: FragmentClassesBinding? = null
     private val binding get() = _binding!!
 
-    private val classesViewmodel: ClassesViewmodel by activityViewModels()
+    private val classesViewModel: ClassesViewModel by activityViewModels()
 
     private val onOpenClassClick: () -> Unit = {
         try {
@@ -72,7 +72,7 @@ class ClassesFragment : Fragment(R.layout.fragment_classes) {
     }
 
     private fun observeData() {
-        classesViewmodel.dailyClasses.onEach { resource ->
+        classesViewModel.dailyClasses.onEach { resource ->
             when (resource) {
                 is Resource.Error -> {}
                 Resource.Loading -> {}

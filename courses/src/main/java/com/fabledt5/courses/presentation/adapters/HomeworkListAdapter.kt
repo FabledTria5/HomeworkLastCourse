@@ -1,4 +1,4 @@
-package com.fabledt5.courses.ui.adapters
+package com.fabledt5.courses.presentation.adapters
 
 import android.graphics.Color
 import android.view.LayoutInflater

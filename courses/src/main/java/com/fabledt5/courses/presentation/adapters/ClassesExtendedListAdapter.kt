@@ -1,21 +1,19 @@
-package com.fabledt5.courses.ui.adapters
+package com.fabledt5.courses.presentation.adapters
 
-import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.fabledt5.courses.R
-import com.fabledt5.courses.data.db.entities.ClassEntity
-import com.fabledt5.courses.databinding.ItemClassBinding
 import com.fabledt5.courses.databinding.ItemClassExtendedBinding
-import java.text.SimpleDateFormat
-import java.util.*
+import com.fabledt5.courses.domain.model.ClassItem
+import com.fabledt5.courses.domain.model.ClassType
+import com.fabledt5.courses.util.setLabWorkGradientBackground
+import com.fabledt5.courses.util.setPracticeGradientBackground
 
 class ClassesExtendedListAdapter(private val onOpenClassClick: () -> Unit) :
-    ListAdapter<ClassEntity, ClassesExtendedListAdapter.ClassesExtendedListViewHolder>(
+    ListAdapter<ClassItem, ClassesExtendedListAdapter.ClassesExtendedListViewHolder>(
         ClassesDiffUtil
     ) {
 
@@ -31,31 +29,16 @@ class ClassesExtendedListAdapter(private val onOpenClassClick: () -> Unit) :
                 tvTeacherName.text = item.teacherName
                 tvClassTime.text = item.classTime
 
-                val localTime = Date()
-
-                val startTime = SimpleDateFormat("HH:mm", Locale.getDefault())
-                    .parse(item.classTime.substring(0, 5))
-
-                val endTime = SimpleDateFormat("HH:mm", Locale.getDefault())
-                    .parse(
-                        item.classTime.substring(
-                            item.classTime.length - 5, item.classTime.length
-                        )
-                    )
-
-                if (localTime in startTime..endTime) {
+                if (item.isRunning) {
                     binding.openClass.visibility = View.VISIBLE
                     binding.openClass.setOnClickListener { onOpenClassClick() }
                 }
 
-                if (!item.classType.lowercase().contains("лекция"))
-                    binding.parentLayout.background = GradientDrawable(
-                        GradientDrawable.Orientation.LEFT_RIGHT,
-                        intArrayOf(
-                            ContextCompat.getColor(context, R.color.SpringGreen),
-                            ContextCompat.getColor(context, R.color.DarkTurquoise)
-                        )
-                    )
+                when (item.classType) {
+                    ClassType.Practice -> binding.parentLayout.setPracticeGradientBackground()
+                    ClassType.LabWork -> binding.parentLayout.setLabWorkGradientBackground()
+                    else -> Unit
+                }
             }
         }
     }

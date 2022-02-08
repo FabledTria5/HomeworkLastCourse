@@ -1,4 +1,4 @@
-package com.fabledt5.courses.di
+package com.fabledt5.courses.presentation.di
 
 import com.fabledt5.courses.data.remote.RemoteDataSource
 import dagger.Module
