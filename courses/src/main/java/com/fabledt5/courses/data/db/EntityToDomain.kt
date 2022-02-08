@@ -8,19 +8,6 @@ import kotlinx.coroutines.flow.map
 import java.text.SimpleDateFormat
 import java.util.*
 
-@JvmName("toDomainClassEntity")
-fun Flow<ClassEntity>.toDomain(): Flow<ClassItem> = map { entity ->
-    ClassItem(
-        className = entity.className,
-        teacherName = entity.teacherName,
-        classTime = entity.classTime,
-        classDate = getClassDate(entity.classTime, entity.classDate),
-        isRunning = isClassRunning(entity.classTime),
-        classType = getClassType(entity.classType)
-    )
-}
-
-@JvmName("toDomainListClassEntity")
 fun Flow<List<ClassEntity>>.toDomain(): Flow<List<ClassItem>> = map { list ->
     list.map { entity ->
         ClassItem(
@@ -29,7 +16,7 @@ fun Flow<List<ClassEntity>>.toDomain(): Flow<List<ClassItem>> = map { list ->
             classTime = entity.classTime,
             classDate = getClassDate(entity.classTime, entity.classDate),
             isRunning = isClassRunning(entity.classTime),
-            classType = getClassType(entity.classType)
+            classType = getClassType(entity.classType),
         )
     }
 }
@@ -41,7 +28,7 @@ fun getClassDate(classTime: String, classDate: String): Date {
 }
 
 fun getClassType(classType: String) = when {
-    classType.lowercase().contains("лекция") -> ClassType.Lecture
+    classType.lowercase().contains("лекц") -> ClassType.Lecture
     classType.lowercase().contains("практ") -> ClassType.Practice
     classType.lowercase().contains("лаб") -> ClassType.LabWork
     else -> ClassType.Lecture
