@@ -15,8 +15,8 @@ interface CoursesDao {
     @Query(value = "SELECT COUNT(*) FROM classes_table")
     suspend fun isCoursesDataLoaded(): Int
 
-    @Query(value = "SELECT * FROM classes_table WHERE class_type NOT LIKE 'лекция' ORDER BY id LIMIT 1")
-    fun getFirstExtraClass(): Flow<ClassEntity>
+    @Query(value = "SELECT * FROM classes_table WHERE class_type NOT LIKE :exclude")
+    fun getExtraClasses(exclude: String): Flow<List<ClassEntity>>
 
     @Query(value = "SELECT * FROM classes_table")
     fun getAllClasses(): Flow<List<ClassEntity>>

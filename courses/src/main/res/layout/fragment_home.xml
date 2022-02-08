@@ -28,7 +28,7 @@
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/hi_mike"
+                    android:text="@string/hi_user"
                     android:textColor="@color/white"
                     android:textSize="17sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -44,7 +44,8 @@
                     app:layout_constraintBottom_toBottomOf="@+id/textView"
                     app:layout_constraintEnd_toStartOf="@+id/btnShape"
                     app:layout_constraintTop_toTopOf="@+id/textView"
-                    app:tint="@color/white" />
+                    app:tint="@color/white"
+                    android:contentDescription="@string/icon_search" />
 
                 <ImageView
                     android:id="@+id/btnShape"
@@ -56,7 +57,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/options"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/white" />
+                    app:tint="@color/white"
+                    android:contentDescription="@string/icon_filter" />
 
                 <ImageView
                     android:id="@+id/options"
@@ -65,7 +67,8 @@
                     android:src="@drawable/ic_student"
                     app:layout_constraintBottom_toBottomOf="@+id/textView"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textView" />
+                    app:layout_constraintTop_toTopOf="@+id/textView"
+                    android:contentDescription="@string/user_avatar" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -110,7 +113,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/textView10"
+                    app:layout_constraintEnd_toStartOf="@+id/tvDots1"
                     app:layout_constraintHorizontal_bias=".5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -127,13 +130,13 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/days_firstNum"
-                    app:layout_constraintEnd_toStartOf="@+id/textView10"
+                    app:layout_constraintEnd_toStartOf="@+id/tvDots1"
                     app:layout_constraintHorizontal_bias=".9"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/days_firstNum" />
 
                 <TextView
-                    android:id="@+id/textView10"
+                    android:id="@+id/tvDots1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="10dp"
@@ -160,9 +163,9 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/days_firstNum"
-                    app:layout_constraintEnd_toStartOf="@+id/textView9"
+                    app:layout_constraintEnd_toStartOf="@+id/tvDots2"
                     app:layout_constraintHorizontal_bias=".1"
-                    app:layout_constraintStart_toEndOf="@+id/textView10"
+                    app:layout_constraintStart_toEndOf="@+id/tvDots1"
                     app:layout_constraintTop_toTopOf="@+id/days_firstNum" />
 
                 <TextView
@@ -177,13 +180,13 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/days_firstNum"
-                    app:layout_constraintEnd_toStartOf="@+id/textView9"
+                    app:layout_constraintEnd_toStartOf="@+id/tvDots2"
                     app:layout_constraintHorizontal_bias=".9"
-                    app:layout_constraintStart_toEndOf="@+id/textView10"
+                    app:layout_constraintStart_toEndOf="@+id/tvDots1"
                     app:layout_constraintTop_toTopOf="@+id/days_firstNum" />
 
                 <TextView
-                    android:id="@+id/textView9"
+                    android:id="@+id/tvDots2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="10dp"
@@ -195,7 +198,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/days_firstNum"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias=".65"
-                    app:layout_constraintStart_toEndOf="@+id/textView10"
+                    app:layout_constraintStart_toEndOf="@+id/tvDots1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/days_firstNum" />
 
@@ -213,7 +216,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/days_firstNum"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias=".1"
-                    app:layout_constraintStart_toEndOf="@+id/textView9"
+                    app:layout_constraintStart_toEndOf="@+id/tvDots2"
                     app:layout_constraintTop_toTopOf="@+id/days_firstNum" />
 
                 <TextView
@@ -230,7 +233,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/days_firstNum"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias=".5"
-                    app:layout_constraintStart_toEndOf="@+id/textView9"
+                    app:layout_constraintStart_toEndOf="@+id/tvDots2"
                     app:layout_constraintTop_toTopOf="@+id/days_firstNum" />
 
                 <TextView

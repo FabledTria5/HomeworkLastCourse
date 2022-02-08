@@ -1,19 +1,18 @@
 package com.fabledt5.courses.presentation.fragments.classes
 
-import android.content.ActivityNotFoundException
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.fabledt5.courses.R
 import com.fabledt5.courses.databinding.FragmentClassesBinding
-import com.fabledt5.courses.presentation.adapters.ClassesExtendedListAdapter
-import com.fabledt5.courses.presentation.model.Resource
+import com.fabledt5.courses.domain.model.Resource
+import com.fabledt5.courses.presentation.adapters.DailyClassesExtendedListAdapter
 import com.fabledt5.courses.util.launchWhenStarted
 import com.lriccardo.timelineview.TimelineDecorator
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,13 +33,13 @@ class ClassesFragment : Fragment(R.layout.fragment_classes) {
             val packageManager = requireActivity().packageManager
             val skype = packageManager.getLaunchIntentForPackage("com.skype.raider")
             startActivity(skype)
-        } catch (e: ActivityNotFoundException) {
+        } catch (e: NullPointerException) {
             Toast.makeText(context, "Skype is not installed", Toast.LENGTH_SHORT).show()
         }
     }
 
     private val extendedClassesAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        ClassesExtendedListAdapter(onOpenClassClick = onOpenClassClick)
+        DailyClassesExtendedListAdapter(onOpenClassClick = onOpenClassClick)
     }
 
     override fun onCreateView(

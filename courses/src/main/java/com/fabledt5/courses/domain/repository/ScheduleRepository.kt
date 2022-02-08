@@ -7,7 +7,7 @@ interface ScheduleRepository {
 
     suspend fun isDataLoaded(): Boolean
 
-    fun getNextExtraClass(): Flow<ClassItem>
+    fun getNextExtraClass(excludeClasses: String): Flow<List<ClassItem>>
 
     fun getDailyClasses(): Flow<List<ClassItem>>
 

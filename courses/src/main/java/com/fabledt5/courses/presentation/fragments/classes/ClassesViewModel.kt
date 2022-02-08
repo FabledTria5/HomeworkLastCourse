@@ -2,10 +2,9 @@ package com.fabledt5.courses.presentation.fragments.classes
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fabledt5.courses.data.db.entities.ClassEntity
 import com.fabledt5.courses.domain.model.ClassItem
 import com.fabledt5.courses.domain.repository.ScheduleRepository
-import com.fabledt5.courses.presentation.model.Resource
+import com.fabledt5.courses.domain.model.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -4,7 +4,7 @@
     <string name="classes">Classes</string>
     <string name="homework">Homework</string>
     <string name="rating">Rating</string>
-    <string name="hi_mike">Hi, <b>Mike!</b></string>
+    <string name="hi_user">Hi, <b>User!</b></string>
     <string name="dots">:</string>
     <string name="minutes">Minutes</string>
     <string name="hours">Hours</string>
@@ -15,4 +15,7 @@
     <string name="classes_today">%1$d classes today</string>
     <string name="next_practice_work">Next practice work:</string>
     <string name="days_left">%1$d days left</string>
+    <string name="icon_search">Search icon</string>
+    <string name="icon_filter">Filter icon</string>
+    <string name="user_avatar">User avatar</string>
 </resources>

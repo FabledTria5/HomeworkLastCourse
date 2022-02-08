@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -14,7 +16,7 @@ import com.fabledt5.courses.R
 import com.fabledt5.courses.databinding.FragmentHomeBinding
 import com.fabledt5.courses.presentation.adapters.DailyClassesAdapter
 import com.fabledt5.courses.presentation.adapters.HomeworkListAdapter
-import com.fabledt5.courses.presentation.model.Resource
+import com.fabledt5.courses.domain.model.Resource
 import com.fabledt5.courses.util.launchWhenStarted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
@@ -70,6 +72,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         LinearSnapHelper().attachToRecyclerView(binding.rvClasses)
         binding.rvClasses.adapter = dailyClassesAdapter
         binding.rvHomework.adapter = homeworkListAdapter
+
+        AlphaAnimation(.0f, 1f).apply {
+            duration = 500
+            startOffset = 50
+            repeatMode = Animation.REVERSE
+            repeatCount = Animation.INFINITE
+        }.also { animation ->
+            binding.tvDots1.startAnimation(animation)
+            binding.tvDots2.startAnimation(animation)
+        }
     }
 
     private fun setupListeners() {
@@ -101,34 +113,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }.launchWhenStarted(lifecycleScope)
 
-        homeViewModel.daysToExam.onEach { daysNumber ->
-            val daysString = daysNumber.toString()
-            if (daysString.length == 2) {
-                binding.daysFirstNum.text = daysString[0].toString()
-                binding.daysSecondNum.text = daysString[1].toString()
-            } else {
-                binding.daysSecondNum.text = daysString[0].toString()
-            }
-        }.launchWhenStarted(lifecycleScope)
+        homeViewModel.timeToExam.onEach { timerCount ->
+            binding.daysFirstNum.text = timerCount.days.first().toString()
+            binding.daysSecondNum.text = timerCount.days.last().toString()
 
-        homeViewModel.hoursToExam.onEach { hoursNumber ->
-            val hoursString = hoursNumber.toString()
-            if (hoursString.length == 2) {
-                binding.hoursFirstNum.text = hoursString[0].toString()
-                binding.hoursSecondNum.text = hoursString[1].toString()
-            } else {
-                binding.hoursSecondNum.text = hoursString[0].toString()
-            }
-        }.launchWhenStarted(lifecycleScope)
+            binding.hoursFirstNum.text = timerCount.hours.first().toString()
+            binding.hoursSecondNum.text = timerCount.hours.last().toString()
 
-        homeViewModel.minutesToExam.onEach { minutesNumber ->
-            val minutesString = minutesNumber.toString()
-            if (minutesString.length == 2) {
-                binding.minutesFirstNum.text = minutesString[0].toString()
-                binding.minutesSecondNum.text = minutesString[1].toString()
-            } else {
-                binding.minutesSecondNum.text = minutesString[0].toString()
-            }
+            binding.minutesFirstNum.text = timerCount.minutes.first().toString()
+            binding.minutesSecondNum.text = timerCount.minutes.last().toString()
         }.launchWhenStarted(lifecycleScope)
 
         homeViewModel.examName.onEach { name ->

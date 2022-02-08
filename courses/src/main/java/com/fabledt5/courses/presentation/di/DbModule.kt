@@ -25,8 +25,4 @@ object DbModule {
     @Provides
     fun provideCoursesDao(coursesDataBase: CoursesDataBase) = coursesDataBase.coursesDao()
 
-    @Singleton
-    @Provides
-    fun provideHomeworkDao(coursesDataBase: CoursesDataBase) = coursesDataBase.homeworkDao()
-
 }

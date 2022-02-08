@@ -7,20 +7,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.fabledt5.courses.R
-import com.fabledt5.courses.data.db.entities.HomeworkEntity
 import com.fabledt5.courses.databinding.ItemHomeworkBinding
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.TimeUnit
+import com.fabledt5.courses.domain.model.HomeworkItem
 
 class HomeworkListAdapter :
-    ListAdapter<HomeworkEntity, HomeworkListAdapter.HomeworkListViewHolder>(HomeworkDiffUtil) {
+    ListAdapter<HomeworkItem, HomeworkListAdapter.HomeworkListViewHolder>(HomeworkDiffUtil) {
 
-    private object HomeworkDiffUtil : DiffUtil.ItemCallback<HomeworkEntity>() {
-        override fun areItemsTheSame(oldItem: HomeworkEntity, newItem: HomeworkEntity) =
-            oldItem.id == newItem.id
+    private object HomeworkDiffUtil : DiffUtil.ItemCallback<HomeworkItem>() {
+        override fun areItemsTheSame(oldItem: HomeworkItem, newItem: HomeworkItem) =
+            oldItem.className == newItem.className && oldItem.deadline == newItem.deadline
 
-        override fun areContentsTheSame(oldItem: HomeworkEntity, newItem: HomeworkEntity) =
+        override fun areContentsTheSame(oldItem: HomeworkItem, newItem: HomeworkItem) =
             oldItem == newItem
     }
 
@@ -29,27 +26,14 @@ class HomeworkListAdapter :
 
         fun bind(itemPosition: Int) {
             val item = getItem(itemPosition)
+            val context = binding.root.context
 
             with(binding) {
                 tvClassName.text = item.className
                 tvHomeworkText.text = item.homeworkText
+                tvDeadline.text = String.format(context.getString(R.string.days_left), item.deadline)
 
-                val today = Date()
-                val deadlineDate =
-                    SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(item.deadline)
-                        ?: Date()
-
-                val daysToDeadline = TimeUnit.DAYS.convert(
-                    (deadlineDate.time - today.time),
-                    TimeUnit.MILLISECONDS
-                )
-
-                tvDeadline.text = String.format(
-                    binding.root.context.getString(R.string.days_left),
-                    daysToDeadline
-                )
-
-                if (daysToDeadline <= 2) tvDeadline.setTextColor(Color.RED)
+                if (item.deadline <= 2) tvDeadline.setTextColor(Color.RED)
             }
         }
 

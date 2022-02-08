@@ -12,8 +12,8 @@ import com.fabledt5.courses.domain.model.ClassType
 import com.fabledt5.courses.util.setLabWorkGradientBackground
 import com.fabledt5.courses.util.setPracticeGradientBackground
 
-class ClassesExtendedListAdapter(private val onOpenClassClick: () -> Unit) :
-    ListAdapter<ClassItem, ClassesExtendedListAdapter.ClassesExtendedListViewHolder>(
+class DailyClassesExtendedListAdapter(private val onOpenClassClick: () -> Unit) :
+    ListAdapter<ClassItem, DailyClassesExtendedListAdapter.ClassesExtendedListViewHolder>(
         ClassesDiffUtil
     ) {
 
@@ -22,7 +22,6 @@ class ClassesExtendedListAdapter(private val onOpenClassClick: () -> Unit) :
 
         fun bind(itemPosition: Int) {
             val item = getItem(itemPosition)
-            val context = binding.root.context
 
             with(binding) {
                 tvClassName.text = item.className

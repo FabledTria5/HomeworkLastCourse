@@ -64,8 +64,9 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
+    // Utils
     implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.9'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation 'com.github.lriccardo:TimelineView:1.1.1'
-    implementation("org.jsoup:jsoup:1.14.3")
+    implementation "org.jsoup:jsoup:1.14.3"
 }

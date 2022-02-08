@@ -1,13 +1,15 @@
 package com.fabledt5.courses.presentation.fragments.home
 
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fabledt5.courses.data.db.entities.HomeworkEntity
 import com.fabledt5.courses.domain.model.ClassItem
+import com.fabledt5.courses.domain.model.HomeworkItem
 import com.fabledt5.courses.domain.repository.HomeworkRepository
 import com.fabledt5.courses.domain.use_cases.schedule.ScheduleCases
-import com.fabledt5.courses.presentation.model.Resource
+import com.fabledt5.courses.domain.model.Resource
+import com.fabledt5.courses.presentation.model.TimerCount
 import com.fabledt5.courses.util.toDaysDifference
 import com.fabledt5.courses.util.toHoursDifference
 import com.fabledt5.courses.util.toMinutesDifference
@@ -32,14 +34,12 @@ class HomeViewModel @Inject constructor(
     private val homeworkRepository: HomeworkRepository
 ) : ViewModel() {
 
-    private val _daysToExam = MutableStateFlow<Long>(value = 0)
-    val daysToExam = _daysToExam.asStateFlow()
+    companion object {
+        private const val TAG = "HomeViewModel"
+    }
 
-    private val _hoursToExam = MutableStateFlow(value = 0)
-    val hoursToExam = _hoursToExam.asStateFlow()
-
-    private val _minutesToExam = MutableStateFlow(value = 0)
-    val minutesToExam = _minutesToExam.asStateFlow()
+    private val _timeToExam = MutableStateFlow(TimerCount())
+    val timeToExam = _timeToExam.asStateFlow()
 
     private val _examName = MutableStateFlow(value = "")
     val examName = _examName.asStateFlow()
@@ -47,7 +47,7 @@ class HomeViewModel @Inject constructor(
     private val _allClasses = MutableStateFlow<Resource<List<ClassItem>>>(Resource.Loading)
     val allClasses = _allClasses.asStateFlow()
 
-    private val _homework = MutableStateFlow<Resource<List<HomeworkEntity>>>(Resource.Loading)
+    private val _homework = MutableStateFlow<Resource<List<HomeworkItem>>>(Resource.Loading)
     val homework = _homework.asStateFlow()
 
     val isDataLoading = MutableStateFlow(value = true)
@@ -70,16 +70,23 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getExtraClass() {
-        scheduleCases.getNextExtraClass().onEach { classItem ->
-            val timeDifference = classItem.classDate.time - Date().time
+        scheduleCases.getNextExtraClass().onEach { result ->
+            when(result) {
+                is Resource.Error -> Log.e(TAG, "getExtraClass: ", result.error)
+                Resource.Loading -> Unit
+                is Resource.Success -> {
+                    val classItem = result.data
+                    val timeDifference = classItem.classDate.time - Date().time
 
-            _examName.value = classItem.className
-            viewModelScope.launch(Dispatchers.Main) {
-                startTimer(
-                    daysToExam = timeDifference.toDaysDifference(),
-                    hoursToExam = timeDifference.toHoursDifference(),
-                    minutesToExam = timeDifference.toMinutesDifference()
-                )
+                    _examName.value = classItem.className
+                    viewModelScope.launch(Dispatchers.Main) {
+                        startTimer(
+                            daysToExam = timeDifference.toDaysDifference(),
+                            hoursToExam = timeDifference.toHoursDifference(),
+                            minutesToExam = timeDifference.toMinutesDifference()
+                        )
+                    }
+                }
             }
         }.launchIn(viewModelScope)
     }
@@ -108,9 +115,11 @@ class HomeViewModel @Inject constructor(
             override fun onTick(millisUntilFinished: Long) {
                 Duration.parse(millisUntilFinished.milliseconds.toIsoString())
                     .toComponents { days, hours, minutes, _, _ ->
-                        _daysToExam.value = days
-                        _hoursToExam.value = hours
-                        _minutesToExam.value = minutes
+                        val daysString = if ("$days".length == 1) "0$days" else "$days"
+                        val hoursString = if ("$hours".length == 1) "0$hours" else "$hours"
+                        val minutesString = if ("$minutes".length == 1) "0$minutes" else "$minutes"
+
+                        _timeToExam.value = TimerCount(daysString, hoursString, minutesString)
                     }
             }
 

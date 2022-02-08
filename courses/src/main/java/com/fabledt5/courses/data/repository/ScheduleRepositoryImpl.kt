@@ -1,7 +1,6 @@
 package com.fabledt5.courses.data.repository
 
 import com.fabledt5.courses.data.db.dao.CoursesDao
-import com.fabledt5.courses.data.db.entities.ClassEntity
 import com.fabledt5.courses.data.db.toDomain
 import com.fabledt5.courses.data.remote.RemoteDataSource
 import com.fabledt5.courses.data.remote.toEntity
@@ -22,7 +21,8 @@ class ScheduleRepositoryImpl @Inject constructor(
 
     override suspend fun isDataLoaded() = coursesDao.isCoursesDataLoaded() > 0
 
-    override fun getNextExtraClass() = coursesDao.getFirstExtraClass().toDomain()
+    override fun getNextExtraClass(excludeClasses: String) =
+        coursesDao.getExtraClasses(exclude = excludeClasses).toDomain()
 
     override fun getDailyClasses(): Flow<List<ClassItem>> {
         val today = SimpleDateFormat("dd MMM yyyy", Locale("ru"))
