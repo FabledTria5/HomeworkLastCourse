@@ -18,7 +18,6 @@ object DbModule {
     @Provides
     fun provideCoursesDatabase(@ApplicationContext context: Context): CoursesDataBase = Room
         .databaseBuilder(context, CoursesDataBase::class.java, "courses_database")
-        .createFromAsset("database/homeworks.db")
         .fallbackToDestructiveMigration()
         .build()
 

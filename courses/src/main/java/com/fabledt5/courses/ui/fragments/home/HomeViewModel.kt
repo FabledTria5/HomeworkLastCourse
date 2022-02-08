@@ -54,6 +54,10 @@ class HomeViewModel @Inject constructor(
     private var timer: CountDownTimer? = null
 
     init {
+        updateData()
+    }
+
+    fun updateData() {
         viewModelScope.launch(Dispatchers.IO) {
             if (!scheduleRepository.isDataLoaded()) scheduleRepository.loadData()
             viewModelScope.launch(Dispatchers.Main) {
