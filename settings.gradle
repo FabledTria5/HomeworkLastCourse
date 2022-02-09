@@ -10,3 +10,4 @@ rootProject.name = "HomeworkLastCourse"
 include ':app'
 include ':drivingcar'
 include ':courses'
+include ':reddit'
