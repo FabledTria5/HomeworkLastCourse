@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">health</string>
+    <string name="icon_favorite">Favorite Icon</string>
+    <string name="icon_splash">Slash icon</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="heart_beat">Heart Beat</string>
+    <string name="high">High</string>
+    <string name="low">Low</string>
+    <string name="add_data">Add your health data</string>
+</resources>
