@@ -44,10 +44,10 @@ fun AddDataDialog(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         TextField(
-                            value = lowPressureText,
-                            onValueChange = { lowPressureText = it },
+                            value = highPressureText,
+                            onValueChange = { highPressureText = it },
                             modifier = Modifier.weight(1f),
-                            placeholder = { Text(text = stringResource(R.string.low)) },
+                            placeholder = { Text(text = stringResource(R.string.high)) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             colors = TextFieldDefaults.textFieldColors(
                                 focusedIndicatorColor = NormalPressure,
@@ -63,10 +63,10 @@ fun AddDataDialog(
                                 .height(30.dp)
                         )
                         TextField(
-                            value = highPressureText,
-                            onValueChange = { highPressureText = it },
+                            value = lowPressureText,
+                            onValueChange = { lowPressureText = it },
                             modifier = Modifier.weight(1f),
-                            placeholder = { Text(text = stringResource(R.string.high)) },
+                            placeholder = { Text(text = stringResource(R.string.low)) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             colors = TextFieldDefaults.textFieldColors(
                                 focusedIndicatorColor = NormalPressure,

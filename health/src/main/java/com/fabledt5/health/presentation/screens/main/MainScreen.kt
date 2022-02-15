@@ -96,21 +96,21 @@ fun ListContent(healthData: List<HealthItem>) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
-        var lastDate = ""
+        val groupedList = healthData.groupBy { it.dateAdded }
 
-        for (item in healthData) {
-            if (lastDate != item.dateAdded) stickyHeader { HealthItemHeader(headerValue = item.dateAdded) }
-            item { HealthItemView(healthItem = item) }
-            item {
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(Color.LightGray)
-                )
+        for (entry in groupedList) {
+            stickyHeader { HealthItemHeader(headerValue = entry.key) }
+            entry.value.forEach { item ->
+                item { HealthItemView(healthItem = item) }
+                item {
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .background(Color.Gray)
+                    )
+                }
             }
-
-            lastDate = item.dateAdded
         }
     }
 }
