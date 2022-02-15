@@ -26,6 +26,9 @@ class HealthRepositoryImpl @Inject constructor(private val firebaseFirestore: Fi
         const val LOW_PRESSURE_FIELD = "lowPressure"
         const val HIGH_PRESSURE_FIELD = "highPressure"
         const val PULSE_FIELD = "pulse"
+
+        const val DATE_FORMAT = "dd MMMM"
+        const val TIME_FORMAT = "hh:mm"
     }
 
     override fun subscribeToData() = callbackFlow {
@@ -52,8 +55,9 @@ class HealthRepositoryImpl @Inject constructor(private val firebaseFirestore: Fi
     }
 
     override fun saveData(lowPressure: String, highPressure: String, pulse: String) {
-        val dateAdded = SimpleDateFormat("dd MMMM", Locale.getDefault()).format(Date())
-        val timeAdded = SimpleDateFormat("hh:mm", Locale.getDefault()).format(Date())
+        val dateAdded = SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(Date())
+        val timeAdded = SimpleDateFormat(TIME_FORMAT, Locale.getDefault()).format(Date())
+
         val healthData = hashMapOf(
             DATE_ADDED_FIELD to dateAdded,
             TIME_ADDED_FIELD to timeAdded,
@@ -62,7 +66,13 @@ class HealthRepositoryImpl @Inject constructor(private val firebaseFirestore: Fi
             PULSE_FIELD to pulse
         )
 
-        firebaseFirestore.collection(HEALTH_COLLECTION).document().set(healthData)
+        firebaseFirestore.collection(HEALTH_COLLECTION)
+            .document("$dateAdded $timeAdded")
+            .set(healthData)
+    }
+
+    override fun deleteData(dataAddedTime: String) {
+        firebaseFirestore.collection(HEALTH_COLLECTION).document(dataAddedTime).delete()
     }
 
 }

@@ -10,4 +10,6 @@ interface HealthRepository {
 
     fun saveData(lowPressure: String, highPressure: String, pulse: String)
 
+    fun deleteData(dataAddedTime: String)
+
 }

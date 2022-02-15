@@ -29,4 +29,7 @@ class MainViewModel @Inject constructor(private val healthCases: HealthCases) : 
     fun saveHealthData(lowPressure: String, highPressure: String, pulse: String) =
         healthCases.addHealthData(lowPressure, highPressure, pulse)
 
+    fun deleteHealthData(dateAdded: String, timeAdded: String) =
+        healthCases.deleteHealthData(dateAdded, timeAdded)
+
 }

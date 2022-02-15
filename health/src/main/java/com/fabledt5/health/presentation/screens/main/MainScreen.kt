@@ -1,11 +1,17 @@
 package com.fabledt5.health.presentation.screens.main
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,8 +34,11 @@ import com.fabledt5.health.presentation.components.AddDataFab
 import com.fabledt5.health.presentation.theme.HighPressure
 import com.fabledt5.health.presentation.theme.MediumPressure
 import com.fabledt5.health.presentation.theme.NormalPressure
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.lang.NumberFormatException
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun MainScreen(mainViewModel: MainViewModel) {
@@ -50,19 +59,25 @@ fun MainScreen(mainViewModel: MainViewModel) {
                 isDialogEnabled = false
                 mainViewModel.saveHealthData(lowPressure, highPressure, pulse)
             })
-        HandleMainScreenContent(healthData)
+        HandleMainScreenContent(healthData, onSwipeToDelete = { dateAdded, timeAdded ->
+            mainViewModel.deleteHealthData(dateAdded, timeAdded)
+        })
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun HandleMainScreenContent(healthData: Resource<List<HealthItem>>) {
+fun HandleMainScreenContent(
+    healthData: Resource<List<HealthItem>>,
+    onSwipeToDelete: (String, String) -> Unit
+) {
     when (healthData) {
         is Resource.Error -> ErrorContent()
         Resource.Loading -> LoadingContent()
         is Resource.Success -> {
             if (healthData.data.isNotEmpty())
-                ListContent(healthData = healthData.data)
+                ListContent(healthData = healthData.data, onSwipeToDelete = onSwipeToDelete)
             else ErrorContent()
         }
     }
@@ -90,9 +105,10 @@ fun ErrorContent() {
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun ListContent(healthData: List<HealthItem>) {
+fun ListContent(healthData: List<HealthItem>, onSwipeToDelete: (String, String) -> Unit) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -101,7 +117,44 @@ fun ListContent(healthData: List<HealthItem>) {
         for (entry in groupedList) {
             stickyHeader { HealthItemHeader(headerValue = entry.key) }
             entry.value.forEach { item ->
-                item { HealthItemView(healthItem = item) }
+                item {
+                    val scope = rememberCoroutineScope()
+
+                    val dismissState = rememberDismissState()
+                    val dismissDirection = dismissState.dismissDirection
+                    val isDismissed = dismissState.isDismissed(DismissDirection.EndToStart)
+
+                    LaunchedEffect(key1 = isDismissed) {
+                        if (isDismissed && dismissDirection == DismissDirection.EndToStart) {
+                            scope.launch {
+                                delay(300)
+                                onSwipeToDelete(item.dateAdded, item.timeAdded)
+                            }
+                        }
+                    }
+
+                    val degrees by animateFloatAsState(
+                        targetValue = if (dismissState.targetValue == DismissValue.Default) 0f else -45f
+                    )
+
+                    var itemAppear by remember { mutableStateOf(false) }
+                    LaunchedEffect(key1 = true) { itemAppear = true }
+
+                    AnimatedVisibility(
+                        visible = itemAppear && !isDismissed,
+                        enter = expandVertically(animationSpec = tween(durationMillis = 300)),
+                        exit = shrinkVertically(animationSpec = tween(durationMillis = 300))
+                    ) {
+                        SwipeToDismiss(
+                            state = dismissState,
+                            background = { RedBackground(degrees) },
+                            directions = setOf(DismissDirection.EndToStart),
+                            dismissThresholds = { FractionalThreshold(fraction = .2f) }
+                        ) {
+                            HealthItemView(healthItem = item)
+                        }
+                    }
+                }
                 item {
                     Spacer(
                         modifier = Modifier
@@ -115,6 +168,7 @@ fun ListContent(healthData: List<HealthItem>) {
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun HealthItemView(healthItem: HealthItem) {
     Row(
@@ -185,6 +239,24 @@ fun HealthItemHeader(headerValue: String) {
         contentAlignment = Alignment.CenterStart
     ) {
         Text(text = headerValue, color = Color.Gray, fontSize = 14.sp)
+    }
+}
+
+@Composable
+fun RedBackground(degrees: Float) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Red)
+            .padding(horizontal = 8.dp),
+        contentAlignment = Alignment.CenterEnd
+    ) {
+        Icon(
+            imageVector = Icons.Default.Delete,
+            contentDescription = "Delete Icon",
+            modifier = Modifier.rotate(degrees = degrees),
+            tint = Color.White
+        )
     }
 }
 
