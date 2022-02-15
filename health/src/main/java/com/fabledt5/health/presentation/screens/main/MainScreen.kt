@@ -134,7 +134,8 @@ fun ListContent(healthData: List<HealthItem>, onSwipeToDelete: (String, String) 
                     }
 
                     val degrees by animateFloatAsState(
-                        targetValue = if (dismissState.targetValue == DismissValue.Default) 0f else -45f
+                        targetValue = if (dismissState.targetValue == DismissValue.Default) 0f
+                        else -45f
                     )
 
                     var itemAppear by remember { mutableStateOf(false) }
