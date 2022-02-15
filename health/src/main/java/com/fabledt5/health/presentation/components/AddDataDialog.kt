@@ -100,6 +100,9 @@ fun AddDataDialog(
                         Spacer(modifier = Modifier.weight(.5f))
                         Button(
                             onClick = {
+                                lowPressureText = ""
+                                highPressureText = ""
+                                pulseText = ""
                                 onAddDataClick(lowPressureText, highPressureText, pulseText)
                             },
                             modifier = Modifier.weight(1f),
