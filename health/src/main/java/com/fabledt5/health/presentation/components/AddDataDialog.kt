@@ -100,10 +100,10 @@ fun AddDataDialog(
                         Spacer(modifier = Modifier.weight(.5f))
                         Button(
                             onClick = {
+                                onAddDataClick(lowPressureText, highPressureText, pulseText)
                                 lowPressureText = ""
                                 highPressureText = ""
                                 pulseText = ""
-                                onAddDataClick(lowPressureText, highPressureText, pulseText)
                             },
                             modifier = Modifier.weight(1f),
                             colors = ButtonDefaults.buttonColors(backgroundColor = NormalPressure),
