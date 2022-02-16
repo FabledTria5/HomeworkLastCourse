@@ -73,16 +73,17 @@ class ClassesFragment : Fragment(R.layout.fragment_classes) {
     private fun observeData() {
         classesViewModel.dailyClasses.onEach { resource ->
             when (resource) {
-                is Resource.Error -> {}
+                is Resource.Error -> binding.tvNoClasses.visibility = View.VISIBLE
                 Resource.Loading -> {}
                 is Resource.Success -> {
                     extendedClassesAdapter.submitList(resource.data)
-                    binding.tvToday.text = String.format(
-                        getString(R.string.today_date),
-                        SimpleDateFormat("d MMMM", Locale.getDefault()).format(Date())
-                    )
+                    binding.tvNoClasses.visibility = View.INVISIBLE
                 }
             }
+            binding.tvToday.text = String.format(
+                getString(R.string.today_date),
+                SimpleDateFormat("d MMMM", Locale.getDefault()).format(Date())
+            )
         }.launchWhenStarted(lifecycleScope)
     }
 

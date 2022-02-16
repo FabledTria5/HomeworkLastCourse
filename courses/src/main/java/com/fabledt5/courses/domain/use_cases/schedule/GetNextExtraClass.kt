@@ -10,11 +10,8 @@ class GetNextExtraClass @Inject constructor(private val scheduleRepository: Sche
 
     operator fun invoke() = scheduleRepository.getNextExtraClass("лекция")
         .map { list ->
-            list.filter { item ->
-                item.classDate.time > Date().time
-            }
             if (list.isNotEmpty())
-                Resource.Success(data = list.first())
+                Resource.Success(data = list.first { it.classDate.time > Date().time })
             else
                 Resource.Error(error = Throwable("No extra classes"))
         }

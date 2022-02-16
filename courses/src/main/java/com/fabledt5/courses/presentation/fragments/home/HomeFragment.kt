@@ -95,10 +95,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         homeViewModel.allClasses.onEach { resource ->
             when (resource) {
-                is Resource.Error -> Log.d(TAG, "observeTimer: ${resource.error.message}")
+                is Resource.Error -> {
+                    Log.d(TAG, "observeTimer: ${resource.error.message}")
+                    binding.tvDailyClassesCount.visibility = View.INVISIBLE
+                    binding.tvNoClasses.visibility = View.VISIBLE
+
+                    if (dailyClassesAdapter.itemCount > 0)
+                        dailyClassesAdapter.submitList(emptyList())
+                }
                 Resource.Loading -> {}
                 is Resource.Success -> {
                     dailyClassesAdapter.submitList(resource.data)
+                    binding.tvNoClasses.visibility = View.INVISIBLE
                     binding.tvDailyClassesCount.text =
                         String.format(getString(R.string.classes_today), resource.data.size)
                 }
@@ -106,7 +114,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }.launchWhenStarted(lifecycleScope)
 
         homeViewModel.homework.onEach { resource ->
-            when(resource) {
+            when (resource) {
                 is Resource.Error -> Log.d(TAG, "observeTimer: ${resource.error.message}")
                 Resource.Loading -> {}
                 is Resource.Success -> homeworkListAdapter.submitList(resource.data)

@@ -18,4 +18,5 @@
     <string name="icon_search">Search icon</string>
     <string name="icon_filter">Filter icon</string>
     <string name="user_avatar">User avatar</string>
+    <string name="no_classes_today">No classes today</string>
 </resources>
