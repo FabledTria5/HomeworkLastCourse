@@ -1,0 +1,12 @@
+package com.fabledt5.health.presentation.theme
+
+import androidx.compose.ui.graphics.Color
+
+val Purple200 = Color(0xFFBB86FC)
+val Purple500 = Color(0xFF6200EE)
+val Purple700 = Color(0xFF3700B3)
+val Teal200 = Color(0xFF03DAC5)
+
+val HighPressure = Color(0xFFF76463)
+val MediumPressure = Color(0xFFFBE8A3)
+val NormalPressure = Color(0xFFB0E4B1)

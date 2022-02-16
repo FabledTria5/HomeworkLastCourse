@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "746119607291",
+    "project_id": "homeworklastcourse",
+    "storage_bucket": "homeworklastcourse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746119607291:android:c0d5315bea0776107e115e",
+        "android_client_info": {
+          "package_name": "com.fabledt5.health"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "746119607291-g90grtourracnk9par26s4pju7f6svpp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhULAsFlYgk4d7GXIhThcF_1AtpQVuuKo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "746119607291-g90grtourracnk9par26s4pju7f6svpp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746119607291:android:a8140a0b43c8505d7e115e",
+        "android_client_info": {
+          "package_name": "com.fabledt5.homeworklastcourse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "746119607291-g90grtourracnk9par26s4pju7f6svpp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhULAsFlYgk4d7GXIhThcF_1AtpQVuuKo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "746119607291-g90grtourracnk9par26s4pju7f6svpp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
