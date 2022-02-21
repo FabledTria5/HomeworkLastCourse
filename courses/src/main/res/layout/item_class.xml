@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardBackgroundColor="@color/DarkLateGray"
+    app:cardCornerRadius="25dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/class_icon_background_shape"
+            android:padding="15dp"
+            android:src="@drawable/ic_bow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvClassName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginBottom="5dp"
+            android:ellipsize="end"
+            android:maxWidth="250dp"
+            android:maxLines="2"
+            android:paddingEnd="10dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/openLessonBackground"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="@+id/imageView2"
+            tools:ignore="RtlSymmetry"
+            tools:text="History" />
+
+        <TextView
+            android:id="@+id/tvTeacherName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:alpha=".6"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+            app:layout_constraintStart_toStartOf="@+id/tvClassName"
+            app:layout_constraintTop_toBottomOf="@+id/tvClassName"
+            tools:text="Teacher name" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_marginTop="5dp"
+            android:alpha=".4"
+            android:src="@drawable/ic_time"
+            app:layout_constraintStart_toStartOf="@+id/tvClassName"
+            app:layout_constraintTop_toBottomOf="@+id/tvTeacherName"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/tvClassTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:alpha=".4"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView"
+            tools:ignore="SmallSp"
+            tools:text="8:00 - 8:45" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/openClass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:constraint_referenced_ids="openLessonBackground,textView4,textView6,btnOpenLesson" />
+
+        <ImageView
+            android:id="@+id/openLessonBackground"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@color/MediumTurquoise"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:rotation="90"
+            android:text="@string/open_in"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/openLessonBackground"
+            app:layout_constraintStart_toStartOf="@+id/openLessonBackground"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/textView6"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="5dp"
+            android:rotation="90"
+            android:src="@drawable/ic_camera"
+            app:layout_constraintEnd_toEndOf="@+id/textView4"
+            app:layout_constraintStart_toStartOf="@+id/textView4"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/btnOpenLesson"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="@id/openLessonBackground"
+            app:layout_constraintEnd_toEndOf="@id/openLessonBackground"
+            app:layout_constraintStart_toStartOf="@id/openLessonBackground"
+            app:layout_constraintTop_toTopOf="@id/openLessonBackground" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
