@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">reddit</string>
+    <string name="icon_star">Star icon</string>
+    <string name="icon_comment">Comment Icon</string>
+</resources>
